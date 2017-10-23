@@ -6,33 +6,37 @@ import api from './api-com';
 export default class App extends Component {
   constructor(props) {
     super(props);
+    this.assembly = null
     this.state = {
-      baseLayers  : null,
-      mixins      : null,
-      seasonings  : null,
-      condiments  : null,
-      shells      : null
+      fetchedAssembly: false
+    }
+  }
+
+  extractResponseToAssembly(values) {
+    var obj = values.reduce((acc, curr) => {
+      acc[curr.id] = curr.arr
+      return acc
+    }, {})
+    this.assembly = {
+      baseLayers  : obj.baseLayers,
+      mixins      : obj.mixins,
+      seasonings  : obj.seasonings,
+      condiments  : obj.condiments,
+      shells      : obj.shells
     }
   }
 
   componentWillMount() {
     Promise.all(api).then(values => {
-      var obj = values.reduce((acc, curr) => {
-        acc[curr.id] = curr.arr
-        return acc
-      }, {})
-
+      this.extractResponseToAssembly(values)
       this.setState({
-        baseLayers  : obj.baseLayers,
-        mixins      : obj.mixins,
-        seasonings  : obj.seasonings,
-        condiments  : obj.condiments,
-        shells      : obj.shells
+        fetchedAssembly: true
       })
     })
   }
+
   render() {
-    console.log(this.state)
+    console.log(this.assembly)
     return (
       <div className="App">
         <header className="App-header">
