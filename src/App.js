@@ -1,9 +1,38 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import api from './api-com';
 
-class App extends Component {
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      baseLayers  : null,
+      mixins      : null,
+      seasonings  : null,
+      condiments  : null,
+      shells      : null
+    }
+  }
+
+  componentWillMount() {
+    Promise.all(api).then(values => {
+      var obj = values.reduce((acc, curr) => {
+        acc[curr.id] = curr.arr
+        return acc
+      }, {})
+
+      this.setState({
+        baseLayers  : obj.baseLayers,
+        mixins      : obj.mixins,
+        seasonings  : obj.seasonings,
+        condiments  : obj.condiments,
+        shells      : obj.shells
+      })
+    })
+  }
   render() {
+    console.log(this.state)
     return (
       <div className="App">
         <header className="App-header">
@@ -17,5 +46,3 @@ class App extends Component {
     );
   }
 }
-
-export default App;
