@@ -102,6 +102,7 @@ export default class App extends Component {
       <div>
         {list}
         <button onClick={this.onSubmit.bind(this)}>submit</button>
+        <button onClick={this.randomTaco.bind(this)}>suprise me</button>
         {tacos}
       </div>
     )
