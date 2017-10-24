@@ -11,7 +11,7 @@ var seasoning = (season) => (
 )
 
 var condiment = (cond) => (
-    (cond) ? `topped with ${cond}, ` : ''
+    (cond) ? `topped with ${cond}. ` : ''
 )
 
 var shell = (shell) => (
